@@ -1,0 +1,36 @@
+.btn-info {
+      background: #0099FF;
+      color:      blue;
+	  margin:      10px;
+   }
+.btn-info:hover {
+      background: dark-green;
+      color:      dark-blue;
+	  padding:    5px;
+   }
+  
+  
+  
+  select {
+	  
+	  margin: 5px;
+	  padding: 5px;
+	  float: middle;
+  }
+  
+  .navbar-default {
+	  background: white;
+	  background-color:#6C0036;
+  }
+  
+ #middle{ margin-left:500px;
+  margin-right:auto}
+  
+  #mid1{
+	   margin-left:50px;
+  margin-right:50px;
+  }
+  
+  body { background :#FFFF99;
+	  
+  }
