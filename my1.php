@@ -1,6 +1,7 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 
 
 require_once("connection.php");
@@ -26,34 +27,44 @@ catch(PDOException $ex) {
 }
 echo $str;
 $which = explode(",", $str);
+
 	foreach($which as $email)
-{
-	 
+{	 
 error_reporting(E_ALL);
 //require_once("PHPMailer_6.5.3/class.phpmailer.php");
 require_once("PHPMailer-6.5.3/src/Exception.php");
 require_once("PHPMailer-6.5.3/src/PHPMailer.php");
 require_once("PHPMailer-6.5.3/src/SMTP.php");
 $mail = new PHPMailer(true);
-$mail->IsSMTP(); // set mailer to use SMTP
-$mail->SMTPDebug  = 2;
-$mail->setFrom('arsalan.derani@gmail.com', 'Arsalan Derani'); 
-$mail->Host = "smtp.gmail.com"; // specif smtp server
-$mail->SMTPSecure= "tls"; // Used instead of TLS when only POP mail is selected
-$mail->Port = 587; // Used instead of 587 when only POP mail is selected
-$mail->SMTPAuth = true;
-$mail->Username = "arsalan_derani@gmail.com"; // SMTP username
-$mail->Password = "tpstps_321"; // SMTP password
-$mail->AddAddress($email , "Sumit Kumar"); //replace myname and mypassword to yours
-//$mail->AddReplyTo("shez.sting@gmail.com", "Sumit Kumar");
-$mail->WordWrap = 50; // set word wrap
-//$mail->AddAttachment("c:\\temp\\js-bak.sql"); // add attachments
-//$mail->AddAttachment("c:/temp/11-10-00.zip");
-$mail->IsHTML(false); // set email format toHTML
-$mail->Subject = "Hello Sir.The message id is ".$id."";
-$mail->Body = "The message description is  ".$desc."" ;
-if($mail->Send()) {echo "Send mail successfully";}
-else {echo "Send mail fail";} 
+try {
+    //Server settings
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+    $mail->isSMTP();                                            //Send using SMTP
+    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+    $mail->Username   = '';                     //SMTP username
+    $mail->Password   = '';                               //SMTP password
+    //$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+    $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+    //Recipients
+    $mail->setFrom('arsalan.derani@gmail.com', 'Mailer');
+    $mail->addAddress($email, $email);     //Add a recipient
+
+
+
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = "Complaint ID ".$id."";
+    $mail->Body    = "".$desc."";
+    //$mail->AltBody = "The message description is  ".$desc."";
+
+    $mail->send();
+    echo 'Message has been sent';
+} catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
+
 }
 // $result1 = $db->prepare( "SELECT count
 // 			 FROM email_send_text
