@@ -47,7 +47,7 @@ print '</script>';
   //if valid then redirect
 
    
-	   $result = $db->exec("INSERT INTO request_v(name,email,password,cnic,area) VALUES ( '$name' , '$email' , '$password' ,'$cnic','$area')");
+	   $result = $db->exec("INSERT INTO request_v() VALUES (  '$email' , '$name' , '$password' ,'$cnic','$area')");
 print '<script>';
 echo "if (confirm('Registered Successfully!! Your account will be activated after 1 hour') == true) {
      window.location.href='index.html' ;

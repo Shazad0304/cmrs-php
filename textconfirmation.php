@@ -74,7 +74,7 @@ catch(PDOException $ex) {
 }
 
 
-$result = $db->exec("INSERT INTO text_descriptive() VALUES ( '$user_id' , '$str' , '$desc2' ,'$email_2','$area','$cell_num')");
+$result = $db->exec("INSERT INTO text_descriptive() VALUES ( '$user_id' , '$str' , '$desc2' ,'$email_2','$area','$cell_num','0')");
 header("Location:textscript.php");
    }  
    }

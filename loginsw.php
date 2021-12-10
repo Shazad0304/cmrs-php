@@ -16,7 +16,7 @@ try {
 {
 
 $_SESSION["email_2"] = $row['email_2'];
-$_SESSION["name_2"] = $row['name_2'];
+$_SESSION["name_2"] = $row['NAME'];
 }
 
 }

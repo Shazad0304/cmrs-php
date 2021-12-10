@@ -58,7 +58,7 @@ print "alert('$last')";
 print '</script>';
 }
 else {
-     $result = $db->exec("INSERT INTO verifier_login() VALUES (  '$name','$email'  ,'$password', '$cnic', '$area' )");
+     $result = $db->exec("INSERT INTO verifier_login() VALUES ( '$email','$name'  ,'$password', '$cnic', '$area' )");
 	 //$last = "Thanks !!!! You Registered Successfully. You account will be activated after 1 hour";
 	//echo "windows.prompt(Welcome)";
 //echo "<a href=\"javascript: if (confirm('Registered Successfully!! Your account will be activated after 1 hour')) { window.location.href='index.html' ;} else { void('') }; \">\n";

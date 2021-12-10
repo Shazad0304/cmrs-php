@@ -11,7 +11,7 @@ $which = "";
 $id = $_POST['id_message'];
 //$desc = $_POST['desc'];
 foreach($_POST['check_list'] as $selected){
-echo $selected;
+//echo $selected;
 print '<br>';
 $str .= $selected.",";
 }
@@ -22,15 +22,15 @@ try {
 		$desc = $row['descp'];
 	}}
 catch(PDOException $ex) {
-    echo "An Error occured!"; //user friendly message
-    some_logging_function($ex->getMessage());
+   // echo "An Error occured!"; //user friendly message
+    //some_logging_function($ex->getMessage());
 }
-echo $str;
+//echo $str;
 $which = explode(",", $str);
 
 	foreach($which as $email)
 {	 
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 //require_once("PHPMailer_6.5.3/class.phpmailer.php");
 require_once("PHPMailer-6.5.3/src/Exception.php");
 require_once("PHPMailer-6.5.3/src/PHPMailer.php");
@@ -48,7 +48,7 @@ try {
     $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom('arsalan.derani@gmail.com', 'Mailer');
+    $mail->setFrom('', 'Mailer');
     $mail->addAddress($email, $email);     //Add a recipient
 
 
@@ -60,9 +60,30 @@ try {
     //$mail->AltBody = "The message description is  ".$desc."";
 
     $mail->send();
-    echo 'Message has been sent';
+
+    $stmt = $db->prepare("UPDATE text_descriptive SET isEmailSent = '1' where id_text_message = '$id'");
+    $stmt->execute();
+
+    print '<script>';
+echo "if (confirm('Email sent Successfully') == true) {
+     window.location.href='text_complain.php' ;
+    } else {
+       window.location.href='text_complain.php' ;
+    }";
+	
+	print '</script>';
+
+    //echo 'Message has been sent';
 } catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    print '<script>';
+    echo "if (confirm('Email could not be sent') == true) {
+         window.location.href='text_complain.php' ;
+        } else {
+           window.location.href='text_complain.php' ;
+        }";
+        
+        print '</script>';
+    //echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
 
 }

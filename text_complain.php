@@ -2,7 +2,7 @@
 require_once("connection.php");
 session_start();
 print '<style>';
-print '.container1 { border:2px solid #ccc; width:250px; height: 60px; overflow-y: scroll; }';
+print '.container1 { height: 186px; margin-top: -21px; padding: 6px; }';
 print 'input[type=checkbox] {
   width: 20px
   height: 20px;
@@ -17,6 +17,13 @@ input[type=checkbox]:after {
     background-color: #9FFF9D;
     display: inline-block;
     visibility: visible;
+}
+
+.btnStyle {
+  background-color: #f0f1f1;
+  border: 1px solid #bbabab;
+  border-radius: 25px;
+  padding: 6px;
 }
 
 input[type=checkbox]:checked:after {
@@ -69,7 +76,7 @@ WHERE id_message_identified NOT IN
     (SELECT id_message
      FROM message_descriptive)";*/
 //$email = $_SESSION["name"];
-$stmt = $db->query("SELECT * FROM text_descriptive ,text_message where  id_text_message  = id AND text_message.validity='valid'");
+$stmt = $db->query("SELECT * FROM text_descriptive ,text_message where  id_text_message  = id AND text_message.validity='valid' and text_descriptive.isEmailSent != '1'");
 
 print '<!DOCTYPE html>';
 print '<html lang="en">';
@@ -100,9 +107,9 @@ print 	'<div class="container">';
     print 	'<thead>';
       print '<tr>'; 
 print '&nbsp;'; print '<th>ID of Message</th>'; print '&nbsp;';
-print '&ndsp;' ; print '<th>Email Sent</th>'; print '&ndsp';
+// print '&ndsp;' ; print '<th>Email Sent</th>'; print '&ndsp';
 print '&nbsp;'; print '<th> Department </th>'; print '&nbsp;';
-print '&nbsp;'; print '<th> Contact Info </th>';print '&nbsp;';
+print '&nbsp;'; print '<th> Complainee Contact Info </th>';print '&nbsp;';
 print '&nbsp;'; print '<th> Department email </th>';print '&nbsp;';
 echo "\t";
 //print '&nbsp;'; print '<th> Department Email </th>';
@@ -149,7 +156,7 @@ print '&nbsp;';  print '<input type="checkbox" name="check_list[]" value="Water 
 //     //some_logging_function($ex->getMessage());
 // }
 
-print '&nbsp;'; print '<td>'; 	echo $count  ;     print '</td>';
+//print '&nbsp;'; print '<td>'; 	echo $count  ;     print '</td>';
 
 print '&nbsp;'; print '<td>'; 	echo $row['department_name'] ;     print '</td>';
 print '&nbsp;'; print '<td>'; 	echo $row['cell_num'] ;     print '</td>';
@@ -197,12 +204,12 @@ $i = 0;
 print '&nbsp;'; print '<div class="container1">';
 
 
-print '&nbsp;';  print '----'.$selected.'---'; print '&nbsp;'; print '<br>';
+//print '&nbsp;';  print '----'.$selected.'---'; print '&nbsp;'; print '<br>';
  //print '&nbsp;'; 
 foreach($res as $sel)
 {
 	
-	 print '&nbsp;';  print '<input type="checkbox" name="check_list[]" value="'.$sel.'"><label>"' . $sel . '"</label>'; print '&nbsp;';
+	 print '&nbsp;';  print '<input type="checkbox" name="check_list[]" value="'.$sel.'">&nbsp;&nbsp;<label>' . $sel . '</label>'; print '&nbsp;';
      print '&nbsp;<br>';	
 }
 //$i=0;
@@ -222,7 +229,7 @@ print '</div>';
 				echo ' <INPUT TYPE=HIDDEN NAME= id_message value='.$id1.'>';
 				//echo ' <INPUT TYPE=HIDDEN NAME= desc value='.$description_message.'>';
 				
-               print '&nbsp;'; echo '<input type= "submit" value="submit" >';
+               print '&nbsp;'; echo '<input class="btnStyle" type= "submit" value="Send Email" >';
 			   
 				 
 				print '&nbsp;';	   echo '</td>';

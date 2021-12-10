@@ -1,17 +1,44 @@
 <?php 
 require_once("connection.php");
+print '<style>';
+print '.container1 { border:2px solid #ccc; width:400px; height: 80px; overflow-y: scroll; }';
+print 'input[type=checkbox] {
+  width: 20px
+  height: 20px;
+  margin-right: 4px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+
+input[type=checkbox]:after {
+    content: " ";
+    background-color: #9FFF9D;
+    display: inline-block;
+    visibility: visible;
+}
+
+input[type=checkbox]:checked:after {
+    content: "\2714";
+}';
+print '</style>';
 if(isset($_POST['submit']))
 {
+$str = "";
+foreach($_POST['check_list'] as $selected){
+
+//$count ++;
+$str .= /*$count." : ".*/$selected.",";
+}
+$str = substr($str, 0, -1);
 $email = $_POST['email'];
 $password = $_POST['password'];
 $name = $_POST['name'];
 //$cnic = $_POST['cnic'];
 //$language = $_POST['language'];
 
-if (empty($_POST["email"])  OR empty($_POST["name"]) OR empty($_POST["password"]) ) {
+if (empty($_POST["email"])  OR empty($_POST["name"]) OR empty($_POST["password"]) OR empty($_POST['check_list']) ) {
       
-$host  = $_SERVER['HTTP_HOST'];
-$uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 
       $last = "Description is required. Please write there";
      // $valid = false;
@@ -24,9 +51,9 @@ print '</script>';
    }
    else {
 	   
-    $result = $db->prepare( "SELECT email_1
-			 FROM volunteer_sign_up_1
-			 WHERE email_1 = ?" );
+    $result = $db->prepare( "SELECT email_2
+			 FROM volunteer_sign_up_2
+			 WHERE email_2 = ?" );
 $result->bindValue( 1, $email );
 $result->execute();
 if( $result->rowCount() > 0 ) { # If rows are found for query
@@ -37,7 +64,10 @@ print "alert('$last')";
 print '</script>';
 }
 else {
-     $result = $db->exec("INSERT INTO volunteer_sign_up_1() VALUES (  '$email'  , '$password'  , '$name'  )");
+  print '<script type=text/javascript>';
+  print "console.log('$str')";
+  print '</script>';
+     $result = $db->exec("INSERT INTO volunteer_sign_up_2() VALUES (  '$email'  , '$name' , '$password' ,'$str' )");
 	 //$last = "Thanks !!!! You Registered Successfully. You account will be activated after 1 hour";
 	//echo "windows.prompt(Welcome)";
 //echo "<a href=\"javascript: if (confirm('Registered Successfully!! Your account will be activated after 1 hour')) { window.location.href='index.html' ;} else { void('') }; \">\n";
@@ -155,7 +185,22 @@ echo "    </div>\n";
 echo "	<div class=\"form-group\">\n"; 
 echo "      <label for=\"email\">Email:</label>\n"; 
 echo "      <input type=\"email\" class=\"form-control\" name=\"email\" placeholder=\"Enter email\">\n"; 
-echo "    </div>\n"; 
+echo "    </div>\n";
+
+echo "      <label for=\"email\">Languages:</label>\n"; 
+print '<td>';
+print '<div class="container1">';  print '&nbsp;';  
+print '<input type="checkbox" name="check_list[]" value="Urdu"><label>Urdu</label>';
+print '<br>';  print '<input type="checkbox" name="check_list[]" value="Sindhi"><label>Sindhi</label>';
+print '<br>';  print '<input type="checkbox" name="check_list[]" value="Punjabi"><label>Punjabi </label>'; 
+print '<br>';  print '<input type="checkbox" name="check_list[]" value="Pishto"><label>Pishto</label>';
+print '<br>';  print '<input type="checkbox" name="check_list[]" value="Balochi"><label>Balochi</label>';
+print '<br>';  print '<input type="checkbox" name="check_list[]" value="Marwari"><label>Marwari </label>'; 
+print '<br>';  print '<input type="checkbox" name="check_list[]" value="English"><label>English</label>';
+print '<br>';  print '<input type="checkbox" name="check_list[]" value="Dhatki"><label>Dhatki</label>';
+print '<br>';  print '<input type="checkbox" name="check_list[]" value="Gujrati"><label>Gujrati </label>'; 
+print '<br>';  print '<input type="checkbox" name="check_list[]" value="Gilgiti"><label>Gilgiti</label>';print '</div>'; print '</td>';
+
 echo "    <div class=\"form-group\">\n"; 
 echo "      <label for=\"pwd\">Password:</label>\n"; 
 echo "      <input type=\"password\" class=\"form-control\" name=\"password\" placeholder=\"Enter password\">\n"; 
